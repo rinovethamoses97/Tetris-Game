@@ -11,6 +11,10 @@ let SConfig=[[[0,0],[1,0],[1,1],[2,1]]   , [[0,1],[0,2],[1,0],[1,1]],  [[0,1],[1
 let configs=[lineConfig,TeeConfig,SquareConfig,LConfig,JConfig,ZConfig,SConfig];
 let shapes=[];
 let cells=[];
+let leftButton;
+let rightButton;
+let downButton;
+let rotateButton;
 function setup(){
     createCanvas(500,600);
     rows=height/size;
@@ -23,6 +27,15 @@ function setup(){
         }
         cells.push(row);
     }
+    leftButton=createButton("Left");
+    leftButton.mouseClicked(moveLeft);
+    rightButton=createButton("Right");
+    rightButton.mouseClicked(moveRight);
+    downButton=createButton("Down");
+    downButton.mouseClicked(moveDown);
+    rotateButton=createButton("Rotate");
+    rotateButton.mouseClicked(rotateShape);
+    
 }
 function draw(){
     background(0);
@@ -48,17 +61,29 @@ function draw(){
 }
 function keyPressed(){
     if(keyCode==32){
-        shapes[shapes.length-1].rotate();
+        rotateShape();
     }
     if(keyCode==37){
-        shapes[shapes.length-1].moveLeft();
+        moveLeft();
     }
     if(keyCode==39){
-        shapes[shapes.length-1].moveRight();
+        moveRight();
     }
     if(keyCode==40){
-        shapes[shapes.length-1].moveDown(shapes);
+        moveDown();
     }
+}
+function moveLeft(){
+    shapes[shapes.length-1].moveLeft();
+}
+function moveRight(){
+    shapes[shapes.length-1].moveRight();
+}
+function moveDown(){
+    shapes[shapes.length-1].moveDown(shapes);
+}
+function rotateShape(){
+    shapes[shapes.length-1].rotate();
 }
 function floorClear(){
     for(let i=0;i<rows;i++){

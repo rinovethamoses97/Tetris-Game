@@ -126,22 +126,17 @@ class Shape{
         let lowestParticles=this.getLowestParticles();
         let par=null;
         let targetRow=rows-1;
+        let dist=targetRow-(this.row+this.getMaxRowOffset());
         for(let i in lowestParticles){
             let c=this.col+lowestParticles[i].colOff;  
-            for(let j=(this.row+lowestParticles[i].rowOff+1);j<rows;j++){
-                for(let x in shapes){
-                    for(let y in shapes[x].particles){
-                        if(shapes[x].particles[y].rowOff+shapes[x].row==j && shapes[x].particles[y].colOff+shapes[x].col==c){
-                            if((j-1)<=targetRow){
-                                targetRow=j-1;
-                                if(par!=null){
-                                    if(lowestParticles[i].rowOff>par.rowOff){
-                                        par=lowestParticles[i];
-                                    }
-                                }
-                                par=lowestParticles[i];
-                            }    
-                        }
+            for(let x in shapes){
+                for(let y in shapes[x].particles){
+                    if(shapes[x].particles[y].colOff+shapes[x].col==c && shapes[x].done){
+                        if((shapes[x].particles[y].rowOff+shapes[x].row)-(lowestParticles[i].rowOff+this.row+1)<dist){
+                            targetRow=shapes[x].particles[y].rowOff+shapes[x].row-1;
+                            dist=(shapes[x].particles[y].rowOff+shapes[x].row)-(lowestParticles[i].rowOff+this.row+1);
+                            par=lowestParticles[i];
+                        }    
                     }
                 }
             }
